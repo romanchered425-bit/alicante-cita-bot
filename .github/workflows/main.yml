@@ -19,11 +19,16 @@ jobs:
           python-version: "3.12"
 
       - name: Встановити залежності
-        run: python -m pip install --upgrade pip selenium requests
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install requests selenium
+          python -c "import selenium; print('SELENIUM OK:', selenium.__version__)"
+
       - name: Запустити бота
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
           NIE: ${{ secrets.NIE }}
           FULL_NAME: ${{ secrets.FULL_NAME }}
-        run: python main.py
+        run: |
+          python main.py
