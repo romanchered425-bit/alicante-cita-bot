@@ -19,10 +19,12 @@ jobs:
           python-version: "3.12"
 
       - name: Встановити залежності
-        run: pip install requests
+        run: pip install requests selenium
 
       - name: Запустити бота
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
+          NIE: ${{ secrets.NIE }}
+          FULL_NAME: ${{ secrets.FULL_NAME }}
         run: python main.py
