@@ -78,22 +78,27 @@ try:
 
     driver.find_element(By.ID, "btnEnviar").click()
 
-    # 5. Перевіряємо результат
-    wait.until(lambda d: d.find_element(By.TAG_NAME, "body"))
+            # 5. Перевіряємо результат
+        import time
+        time.sleep(5)
 
-    text = driver.find_element(By.TAG_NAME, "body").text
+        page_text = driver.find_element(By.TAG_NAME, "body").text.lower()
 
-    if "no hay citas disponibles" in text.lower():
-        print("Вільних записів немає.")
-    elif "no hay suficientes" in text.lower():
-        print("Вільних записів немає.")
-    else:
-        telegram(
-            "🚨 З'ЯВИВСЯ ЗАПИС ALICANTE!\n\n"
-            "TIE / TOMA DE HUELLAS (4010)\n\n"
-            "Зайди на офіційний ICPplus і перевір дату та час."
-        )
-        print("🚨 Можливо, з'явився запис!")
+        no_appointments = [
+            "no hay citas disponibles",
+            "no hay citas suficientes",
+            "no existen citas disponibles",
+            "actualmente no hay citas"
+        ]
 
+        if any(msg in page_text for msg in no_appointments):
+            print("Вільних записів немає.")
+        else:
+            telegram(
+                "🚨 З'ЯВИВСЯ МОЖЛИВИЙ ЗАПИС ALACANTE!\n\n"
+                "TIE / TOMA DE HUELLAS (4010)\n\n"
+                "Перевір сайт ICPplus вручну та забронюй запис."
+            )
+            print("🚨 Можливо, з'явився запис!")
 finally:
     driver.quit()
