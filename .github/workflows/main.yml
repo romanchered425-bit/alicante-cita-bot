@@ -18,7 +18,7 @@ jobs:
         with:
           python-version: "3.12"
 
-       -name: Встановити залежності
+      - name: Встановити залежності
         run: python -m pip install requests selenium
 
       - name: Запустити бота
